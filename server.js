@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var userRoutes = require('./app/routes/user');
 var authRoutes = require('./app/routes/auth');
+var timezoneRoutes = require('./app/routes/timezone');
 var authMiddleware = require('./app/middleware/auth');
 
 var app = express();
@@ -22,6 +23,7 @@ app.use(authMiddleware);
 
 // authenticated routes
 app.use('/api/users', userRoutes);
+app.use('/api/timezones', timezoneRoutes);
 
 app.listen(port);
 console.log('Listening on port: ' + port);
