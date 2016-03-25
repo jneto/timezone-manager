@@ -1,6 +1,6 @@
 var express = require('express');
-var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+
 var User = require('../models/user');
 var constants = require('../const');
 
@@ -35,7 +35,7 @@ userRoutes.route('/')
                 res.send(err);
             } else {
                 users.forEach(function(user) {
-                    delete user.hashedPassword;
+                    user.hashedPassword = undefined;
                 });
                 res.json(users);
             }
@@ -48,6 +48,7 @@ userRoutes.route('/:user_id')
             if (err) {
                 res.send(err);
             } else {
+                user.hashedPassword = undefined;
                 res.json(user);
             }
         });
