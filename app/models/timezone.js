@@ -6,5 +6,6 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Timezone', new Schema({ 
     name: {type: String, required: 'Name is required.', unique: true},
     city: {type: String, required: 'Name of city is required.'},
-    diff: {type: Number, required: 'Difference to GMT is required.'}
+    diff: {type: Number, required: 'Difference to GMT is required.'},
+    owner: {type: Schema.Types.ObjectId, ref: 'User'}
 }));
