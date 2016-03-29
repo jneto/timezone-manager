@@ -17,6 +17,8 @@ app.set('secret', config.secret);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname + '/dist'));
+
 app.use(authMiddleware.setAuthenticatedUser);
 
 app.use('/api/auth', authRoutes);
