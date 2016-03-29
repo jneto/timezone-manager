@@ -2,34 +2,58 @@ var express = require('express');
 var bcrypt = require('bcrypt');
 
 var User = require('../models/user');
-var constants = require('../const');
+var roles = require('../roles');
 
-var userRoutes = express.Router();
+var unauthenticatedRoutes = express.Router();
 
-userRoutes.route('/')
-    .post(function(req, res) {
-        var user = new User();
-        user.username = req.body.username;
-        user.role = req.body.role;
+function hashPasswordAndSaveUser(password, user, res, message) {
+    bcrypt.hash(password, 10, function(err, hash) {
+        if (err) {
+            res.send(err);
+        } else {
+            user.hashedPassword = hash;
 
-        bcrypt.hash(req.body.password, 10, function(err, hash) {
-            if (err) {
-                res.send(err);
+            user.save(function(err) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.json({message: message});
+                }
+            });
+        }
+    });
+}
+
+unauthenticatedRoutes.post('/', function(req, res) {
+    var user = new User();
+    user.username = req.body.username;
+    if (req.user) {
+        // authenticated user
+        if (req.user.role == roles.ADMIN) {
+            // admin
+            if (req.body.role == roles.ADMIN || req.body.role == roles.REGULAR) {
+                // valid role
+                user.role = req.body.role;
+                hashPasswordAndSaveUser(req.body.password, user, res, 'User created successfuly.');
             } else {
-                user.hashedPassword = hash;
-
-                user.save(function(err) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        res.json({message: 'User created successfuly.'});
-                    }
-                });
+                // invalid role
+                res.json({success: false, message: 'User role must be: REGULAR or ADMIN.'});
             }
-        });
-    })
+        } else {
+            // regular user
+            res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
+        }
+    } else {
+        // unauthenticated user
+        user.role =  roles.REGULAR;
+        hashPasswordAndSaveUser(req.body.password, user, res, 'User created successfuly.');
+    }
+});
 
-    .get(function(req, res) {
+var authenticatedRoutes = express.Router();
+
+authenticatedRoutes.get('/', function(req, res) {
+    if (req.user.role == roles.ADMIN) {
         User.find({}, function(err, users) {
             if (err) {
                 res.send(err);
@@ -40,46 +64,75 @@ userRoutes.route('/')
                 res.json(users);
             }
         });
-    });
+    } else {
+        res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
+    }
+});
 
-userRoutes.route('/:user_id')
+authenticatedRoutes.route('/:user_id')
     .get(function(req, res) {
-        User.findById(req.params.user_id, function(err, user) {
-            if (err) {
-                res.send(err);
-            } else {
-                user.hashedPassword = undefined;
-                res.json(user);
-            }
-        });
+        if (req.user.role == roles.ADMIN) {
+            User.findById(req.params.user_id, function(err, user) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    user.hashedPassword = undefined;
+                    res.json(user);
+                }
+            });
+        } else {
+            res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
+        }
     })
 
     .put(function(req, res) {
-        User.findById(req.params.user_id, function(err, user) {
-            if (err) {
-                res.send(err);
-            } else {
-                user.role = req.body.role;
+        if (req.user.role == roles.ADMIN) {
+            User.findById(req.params.user_id, function(err, user) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    // validates user role
+                    if (req.body.role == roles.ADMIN || req.body.role == roles.REGULAR) {
+                        user.role = req.body.role;
 
-                user.save(function(err) {
-                    if(err) {
-                        res.send(err);
+                        if (req.body.password) {
+                            // new password has to be hashed
+                            hashPasswordAndSaveUser(req.body.password, user, res, 'User updated successfuly.');
+                        } else {
+                            user.save(function(err) {
+                                if(err) {
+                                    res.send(err);
+                                } else {
+                                    res.json({message: 'User updated successfuly.'});
+                                }
+                            });
+                        }
+
                     } else {
-                        res.json({message: 'User updated successfuly.'});
+                        res.json({success: false, message: 'User role must be: REGULAR or ADMIN.'});
                     }
-                });
-            }
-        });
+                }
+            });
+        } else {
+            res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
+        }
     })
 
     .delete(function(req, res) {
-        User.remove({_id: req.params.user_id}, function(err) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json({message: 'User deleted successfuly.'});
-            }
-        });
+        if (req.user.role == roles.ADMIN) {
+            User.remove({_id: req.params.user_id}, function(err) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.json({message: 'User deleted successfuly.'});
+                }
+            });
+        } else {
+            res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
+        }
     });
 
-module.exports = userRoutes;
+module.exports = {
+    unauthenticatedRoutes: unauthenticatedRoutes,
+    authenticatedRoutes: authenticatedRoutes
+};

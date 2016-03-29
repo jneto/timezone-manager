@@ -24,7 +24,7 @@ authRoutes.post('/', function(req, res) {
                         } else {
                             delete user.hashedPassword;
 
-                            var token = jwt.sign(user, config.secret, {expiresInMinutes: 1440});
+                            var token = jwt.sign(user, config.secret, {expiresIn: 86400});
 
                             res.json({
                                 success: true,

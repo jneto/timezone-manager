@@ -17,12 +17,15 @@ app.set('secret', config.secret);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.use('/api/auth', authRoutes);
+app.use(authMiddleware.setAuthenticatedUser);
 
-app.use(authMiddleware);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes.unauthenticatedRoutes);
+
+app.use(authMiddleware.blockUnauthenticatedUser);
 
 // authenticated routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes.authenticatedRoutes);
 app.use('/api/timezones', timezoneRoutes);
 
 app.listen(port);
