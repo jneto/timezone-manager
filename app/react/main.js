@@ -1,10 +1,24 @@
+// import 'babel-polyfill'
+
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+
+import reducers from './reducers'
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux'
 
-import Login from './components/Login.js';
-import CreateAccount from './components/CreateAccount.js';
-import UserList from './components/UserList.js';
-import UserEdit from './components/UserEdit.js';
-import UserView from './components/UserView.js';
+import LoginPage from './containers/LoginPage.js';
 
-ReactDOM.render(<UserView/>, document.getElementById('app'));
+let store = createStore(
+    reducers,
+    applyMiddleware(thunkMiddleware)
+)
+
+render(
+    <Provider store={store}>
+        <LoginPage/>
+    </Provider>,
+    document.getElementById('app')
+);
