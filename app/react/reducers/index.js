@@ -1,26 +1,9 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/actions'
+import { routerReducer } from 'react-router-redux'
 
-export default function login(state={logginIn: false}, action) {
-    switch (action.type) {
-        case LOGIN_REQUEST:
-            return Object.assign({}, state, {
-                loggingIn: true,
-                message: '',
-                token: undefined
-            })
-        case LOGIN_SUCCESS:
-            return Object.assign({}, state, {
-                loggingIn: false,
-                message: '',
-                token: action.token
-            })
-        case LOGIN_FAILURE:
-            return Object.assign({}, state, {
-                loggingIn: false,
-                message: action.message,
-                token: undefined
-            })
-        default:
-            return state
-    }
+import accountCreation from './accountCreation'
+import login from './login'
+
+export default function(state = {}, action) {
+    state.routing = routerReducer(state.routing, action)
+    return login(accountCreation(state, action), action)
 }
