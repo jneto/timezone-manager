@@ -24,11 +24,16 @@ app.use(authMiddleware.setAuthenticatedUser);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes.unauthenticatedRoutes);
 
-app.use(authMiddleware.blockUnauthenticatedUser);
+// app.use(authMiddleware.blockUnauthenticatedUser);
 
 // authenticated routes
 app.use('/api/users', userRoutes.authenticatedRoutes);
 app.use('/api/timezones', timezoneRoutes);
+
+// send all requests to index.html so browserHistory works
+app.get('*', function (req, res) {
+  res.sendFile(__dirname + '/dist/index.html')
+})
 
 app.listen(port);
 console.log('Listening on port: ' + port);

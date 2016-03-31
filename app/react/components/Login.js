@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router'
 
-const Login = ( { loggingIn, message, token, onSubmit } ) => {
+const Login = ( { fetching, message, token, onSubmit } ) => {
     let username
     let password
 
-    if (loggingIn) {
+    if (fetching) {
         return <h1>Logging In...</h1>
     } else if (token) {
         return <h1>{token}</h1>
@@ -43,6 +44,9 @@ const Login = ( { loggingIn, message, token, onSubmit } ) => {
                         </div>
                         <button type="submit" className="btn btn-primary btn-block">Sign In</button>
                     </form>
+                </div>
+                <div className="col-xs-12 col-sm-4 col-sm-offset-4">
+                    <Link to="/createAccount">Creat account</Link>
                 </div>
             </div>
         </div>
