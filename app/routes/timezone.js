@@ -32,7 +32,7 @@ timezoneRoutes.route('/')
                 if (err) {
                     res.send(err);
                 } else {
-                    res.json(timezones);
+                    res.json({success: true, timezones: timezones});
                 }
             });
         } else if (req.user.role == roles.ADMIN) {
@@ -40,7 +40,7 @@ timezoneRoutes.route('/')
                 if (err) {
                     res.send(err);
                 } else {
-                    res.json(timezones);
+                    res.json({success: true, timezones: timezones});
                 }
             });
         } else {
@@ -58,7 +58,7 @@ timezoneRoutes.route('/:timezone_id')
                     if (!timezone) {
                         res.json({success: false, message: 'Timezone not found.'});
                     } else {
-                        res.json(timezone);
+                        res.json({success: true, timezone: timezone});
                     }
                 }
             });
@@ -70,7 +70,7 @@ timezoneRoutes.route('/:timezone_id')
                     if (!timezone) {
                         res.json({success: false, message: 'Timezone not found.'});
                     } else {
-                        res.json(timezone);
+                        res.json({success: true, timezone: timezone});
                     }
                 }
             });

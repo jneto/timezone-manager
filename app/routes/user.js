@@ -17,7 +17,7 @@ function hashPasswordAndSaveUser(password, user, res, message) {
                 if (err) {
                     res.send(err);
                 } else {
-                    res.json({message: message});
+                    res.json({success: true, message: message});
                 }
             });
         }
@@ -61,7 +61,7 @@ authenticatedRoutes.get('/', function(req, res) {
                 users.forEach(function(user) {
                     user.hashedPassword = undefined;
                 });
-                res.json(users);
+                res.json({success: true, users: users});
             }
         });
     } else {
@@ -77,7 +77,7 @@ authenticatedRoutes.route('/:user_id')
                     res.send(err);
                 } else {
                     user.hashedPassword = undefined;
-                    res.json(user);
+                    res.json({success: true, user: user});
                 }
             });
         } else {
@@ -103,7 +103,7 @@ authenticatedRoutes.route('/:user_id')
                                 if(err) {
                                     res.send(err);
                                 } else {
-                                    res.json({message: 'User updated successfuly.'});
+                                    res.json({success: true, message: 'User updated successfuly.'});
                                 }
                             });
                         }
@@ -124,7 +124,7 @@ authenticatedRoutes.route('/:user_id')
                 if (err) {
                     res.send(err);
                 } else {
-                    res.json({message: 'User deleted successfuly.'});
+                    res.json({success: true, message: 'User deleted successfuly.'});
                 }
             });
         } else {
