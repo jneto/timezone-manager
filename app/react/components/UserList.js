@@ -19,21 +19,8 @@ const UserTableRow = ( { user, deleteUser } ) => (
 
 const UserTable = ( { users, filters, deleteUser } ) => {
     const rows = users.filter((user) => {
-        let roleMatch = false
-        if (filters.role) {
-            if (filters.role === user.role) {
-                roleMatch = true
-            }
-        } else {
-            roleMatch = true
-        }
-        let usernameMatch = false
-        if (filters.username) {
-            let r = new RegExp(filters.username, 'i')
-            usernameMatch = r.test(user.username)
-        } else {
-            usernameMatch = true
-        }
+        const roleMatch = !filters.role || filters.role === user.role
+        const usernameMatch = !filters.username || (new RegExp(filters.username, 'i')).test(user.username)
         return usernameMatch && roleMatch
     }).map((user, i) => (<UserTableRow user={user} deleteUser={deleteUser} key={i}/>))
 
