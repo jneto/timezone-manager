@@ -1,5 +1,7 @@
 import request from 'superagent'
 
+import { push } from 'react-router-redux'
+
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 export function changeFilter(username, role) {
@@ -125,7 +127,7 @@ function saveUserFailure(message) {
     }
 }
 
-export function saveUser(id) {
+export function saveUser(role, password, confirmPassword, id) {
     return (dispatch, getState) => {
         if (password !== confirmPassword) {
             dispatch(saveUserFailure('Password and password confirmation must be equal.'))
@@ -134,6 +136,7 @@ export function saveUser(id) {
             let state = getState()
             request.put('/api/users/' + id)
                 .set('x-access-token', state.authentication.token)
+                .send({ role, password })
                 .end((err, res) => {
                     if (err) {
                         dispatch(saveUserFailure(err.status + ': ' + err.message))
@@ -141,7 +144,7 @@ export function saveUser(id) {
                         dispatch(saveUserFailure(res.body.message))
                     } else {
                         dispatch(saveUserSuccess(res.body.message))
-                        dispatch(fetchUsers())
+                        dispatch(push('/users'))
                     }
                 })
         }
@@ -174,7 +177,7 @@ function createUserFailure(message) {
     }
 }
 
-export function createUser(username, role, password, confirmPassword) {
+export function createUser(role, password, confirmPassword, username) {
     return (dispatch, getState) => {
         if (password !== confirmPassword) {
             dispatch(createUserFailure('Password and password confirmation must be equal.'))
@@ -183,7 +186,7 @@ export function createUser(username, role, password, confirmPassword) {
             let state = getState()
             request.post('/api/users/')
                 .set('x-access-token', state.authentication.token)
-                .send(username, role, password, confirmPassword)
+                .send({ username, role, password })
                 .end((err, res) => {
                     if (err) {
                         dispatch(createUserFailure(err.status + ': ' + err.message))
@@ -191,7 +194,7 @@ export function createUser(username, role, password, confirmPassword) {
                         dispatch(createUserFailure(res.body.message))
                     } else {
                         dispatch(createUserSuccess(res.body.message))
-                        dispatch(fetchUsers())
+                        dispatch(push('/users'))
                     }
                 })
         }
