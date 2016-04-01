@@ -17,7 +17,7 @@ export default function login(state={fetching: false}, action) {
         case LOGIN_FAILURE:
             return Object.assign({}, state, {
                 fetching: false,
-                message: {content: action.message, success: false},
+                message: { content: action.message, success: false },
                 token: undefined
             })
         default:
