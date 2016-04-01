@@ -15,6 +15,7 @@ import LoginPage from './containers/LoginPage';
 import CreateAccountPage from './containers/CreateAccountPage';
 import UserListPage from './containers/UserListPage'
 import UserEditPage from './containers/UserEditPage'
+import UserViewPage from './containers/UserViewPage'
 
 let store = createStore(
     reducers,
@@ -34,9 +35,9 @@ render(
             <Route path="/createAccount" component={CreateAccountPage}/>
             <Route path="/users" component={UserListPage}/>
             <Route path="/users/edit(/:id)" component={UserEditPage}/>
+            <Route path="/users/view/:id" component={UserViewPage}/>
         </Router>
     </Provider>,
     document.getElementById('app')
 );
 
-            // <Route path="/users/view/:id" component={UserViewPage}/>
