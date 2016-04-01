@@ -1,5 +1,7 @@
 import request from 'superagent'
 
+import { push } from 'react-router-redux'
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 
 function loginRequest() {
@@ -38,6 +40,7 @@ export default function login(username, password) {
                     dispatch(loginFailure(res.body.message))
                 } else {
                     dispatch(loginSuccess(res.body.token))
+                    dispatch(push('/users'))
                 }
             })
     }

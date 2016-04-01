@@ -15,7 +15,7 @@ export const ACCOUNT_CREATION_SUCCESS = 'ACCOUNT_CREATION_SUCCESS'
 function accountCreationSuccess(message) {
     return {
         type: ACCOUNT_CREATION_SUCCESS,
-        messagesuccess: true, users: users
+        message
     }
 }
 
@@ -27,7 +27,7 @@ function accountCreationFailure(message) {
         message
     }
 }
-q
+
 export default function accountCreation(username, password, confirmPassword) {
     return dispatch => {
         if (password !== confirmPassword) {
