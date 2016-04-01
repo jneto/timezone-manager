@@ -31,14 +31,12 @@ export default function users(state={
         case FETCH_USERS_REQUEST:
             return Object.assign({}, state, {
                 fetching: true,
-                list: [],
-                message: undefined
+                list: []
             })
         case FETCH_USERS_SUCCESS:
             return  Object.assign({}, state, {
                 fetching: false,
-                list: action.users,
-                message: undefined
+                list: action.users
             })
         case FETCH_USERS_FAILURE:
             return  Object.assign({}, state, {
