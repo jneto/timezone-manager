@@ -67,9 +67,9 @@ const UserList = ( { message, users, filters, onFilterChange, deleteUser } ) => 
     let failureMessage
     if (message) {
         if (message.success) {
-            successMessage = <p className="text-success">message.content</p>
+            successMessage = <p className="text-success">{message.content}</p>
         } else {
-            failureMessage = <p className="text-danger">message.content</p>
+            failureMessage = <p className="text-danger">{message.content}</p>
         }
     }
 
