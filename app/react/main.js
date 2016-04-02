@@ -1,18 +1,18 @@
 
-import React from 'react';
-import { render } from 'react-dom';
+import React from 'react'
+import { render } from 'react-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
-import createLogger from 'redux-logger';
+import createLogger from 'redux-logger'
 import {persistStore, autoRehydrate} from 'redux-persist'
 
 import reducers from './reducers'
 
-import LoginPage from './containers/LoginPage';
-import CreateAccountPage from './containers/CreateAccountPage';
+import LoginPage from './containers/LoginPage'
+import CreateAccountPage from './containers/CreateAccountPage'
 import UserListPage from './containers/UserListPage'
 import UserEditPage from './containers/UserEditPage'
 import UserViewPage from './containers/UserViewPage'
@@ -41,5 +41,5 @@ render(
         </Router>
     </Provider>,
     document.getElementById('app')
-);
+)
 
