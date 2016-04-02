@@ -1,4 +1,3 @@
-// import 'babel-polyfill'
 
 import React from 'react';
 import { render } from 'react-dom';
@@ -8,6 +7,7 @@ import thunkMiddleware from 'redux-thunk'
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
 import createLogger from 'redux-logger';
+import {persistStore, autoRehydrate} from 'redux-persist'
 
 import reducers from './reducers'
 
@@ -23,8 +23,10 @@ let store = createStore(
         thunkMiddleware,
         routerMiddleware(browserHistory),
         createLogger()
-    )
+    ),
+    autoRehydrate()
 )
+persistStore(store)
 
 const history = syncHistoryWithStore(browserHistory, store)
 
