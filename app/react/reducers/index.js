@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux'
 import accountCreation from './accountCreation'
 import login from './login'
 import users from './users'
+import timezones from './timezones'
 
 // export default function(state = {}, action) {
 //     state.routing = routerReducer(state.routing, action)
@@ -17,6 +18,7 @@ function authenticationCombinedReducer(state, action) {
 const reducers = combineReducers({
     authentication: authenticationCombinedReducer,
     users: users,
+    timezones: timezones,
     routing: routerReducer
 })
 

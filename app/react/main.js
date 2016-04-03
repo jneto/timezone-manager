@@ -16,6 +16,9 @@ import CreateAccountPage from './containers/CreateAccountPage'
 import UserListPage from './containers/UserListPage'
 import UserEditPage from './containers/UserEditPage'
 import UserViewPage from './containers/UserViewPage'
+import TimezoneListPage from './containers/TimezoneListPage'
+import TimezoneEditPage from './containers/TimezoneEditPage'
+import TimezoneViewPage from './containers/TimezoneViewPage'
 
 let store = createStore(
     reducers,
@@ -38,6 +41,9 @@ render(
             <Route path="/users" component={UserListPage}/>
             <Route path="/users/edit(/:id)" component={UserEditPage}/>
             <Route path="/users/view/:id" component={UserViewPage}/>
+            <Route path="/timezones" component={TimezoneListPage}/>
+            <Route path="/timezones/edit(/:id)" component={TimezoneEditPage}/>
+            <Route path="/timezones/view/:id" component={TimezoneViewPage}/>
         </Router>
     </Provider>,
     document.getElementById('app')
