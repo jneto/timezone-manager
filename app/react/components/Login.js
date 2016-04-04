@@ -12,8 +12,8 @@ const Login = ( { fetching, message, token, onSubmit } ) => {
     }
 
     let errorMessage = null
-    if (message) {
-        errorMessage = <p className="text-danger">{message}</p>
+    if (message && !message.success) {
+        errorMessage = <p className="text-danger">{message.content}</p>
     }
 
     return (

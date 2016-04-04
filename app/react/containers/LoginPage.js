@@ -5,7 +5,11 @@ import login from '../actions/login'
 import Login from '../components/Login'
 
 const mapStateToProps = state => {
-    return state
+    return {
+        fetching: state.authentication.fetching,
+        message: state.authentication.message,
+        token: state.authentication.token
+    }
 }
 
 const mapDispatchToProps = dispatch => {
