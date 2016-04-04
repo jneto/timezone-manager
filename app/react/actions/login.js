@@ -12,10 +12,11 @@ function loginRequest() {
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 
-function loginSuccess(token) {
+function loginSuccess(token, user) {
     return {
         type: LOGIN_SUCCESS,
-        token
+        token,
+        user
     }
 }
 
@@ -39,8 +40,8 @@ export default function login(username, password) {
                 } else if (!res.body.success) {
                     dispatch(loginFailure(res.body.message))
                 } else {
-                    dispatch(loginSuccess(res.body.token))
-                    dispatch(push('/users'))
+                    dispatch(loginSuccess(res.body.token, res.body.user))
+                    dispatch(push('/timezones'))
                 }
             })
     }

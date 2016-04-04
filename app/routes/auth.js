@@ -29,7 +29,8 @@ authRoutes.post('/', function(req, res) {
                             res.json({
                                 success: true,
                                 message: 'Authentication succeeded.',
-                                token: token
+                                token: token,
+                                user: user
                             });
                         }
                     }
