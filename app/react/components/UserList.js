@@ -8,7 +8,7 @@ const UserIcons = ( { id, loggedUserId, showModal } ) => {
     }
 
     return (
-        <div>
+        <div className="table-icons">
             <Link to={'/users/view/' + id}><span className="glyphicon glyphicon-search table-icon"></span></Link>
             <Link to={'/users/edit/' + id}><span className="glyphicon glyphicon-edit table-icon"></span></Link>
             {deleteIcon}
@@ -45,8 +45,8 @@ const Filters = ( { onChange } ) => {
 
     return (
         <div className="form-inline">
-            <div className="form-group">
-                <label className="filter-group-label">Username</label>
+            <h5>Filters</h5>
+            <div className="form-group spaced-form-group">
                 <input
                     type="text"
                     className="form-control"
@@ -55,14 +55,13 @@ const Filters = ( { onChange } ) => {
                     onChange={() => {onChange(usernameInput.value, roleInput.value)}}/>
             </div>
             <div className="form-group">
-                <label className="filter-group-label">Role</label>
                 <select
                     className="form-control"
                     ref={(node) => {roleInput = node}}
                     onChange={() => {onChange(usernameInput.value, roleInput.value)}}>
-                    <option></option>
-                    <option>ADMIN</option>
-                    <option>REGULAR</option>
+                    <option value="">ALL ROLES</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="REGULAR">REGULAR</option>
                 </select>
             </div>
         </div>

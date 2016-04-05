@@ -4,7 +4,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 const TimezoneIcons = ( { id, showModal }) => (
-    <div>
+    <div className="table-icons">
         <Link to={'/timezones/view/' + id}><span className="glyphicon glyphicon-search table-icon"></span></Link>
         <Link to={'/timezones/edit/' + id}><span className="glyphicon glyphicon-edit table-icon"></span></Link>
         <span className="glyphicon glyphicon-trash table-icon" onClick={() => {showModal(id)}}></span>
@@ -39,8 +39,8 @@ const Filter = ( { onChange } ) => {
 
     return (
         <div className="form-inline">
+            <h5>Filter</h5>
             <div className="form-group">
-                <label className="filter-group-label">Name</label>
                 <input
                     type="text"
                     className="form-control"
