@@ -39,7 +39,7 @@ const UserTable = ( { users, filters, loggedUserId, showModal } ) => {
     )
 }
 
-const Filters = ( { onChange } ) => {
+const Filters = ( { filters, onChange } ) => {
     let usernameInput
     let roleInput
 
@@ -48,6 +48,7 @@ const Filters = ( { onChange } ) => {
             <h5>Filters</h5>
             <div className="form-group spaced-form-group">
                 <input
+                    defaultValue={filters.username}
                     type="text"
                     className="form-control"
                     placeholder="username"
@@ -56,6 +57,7 @@ const Filters = ( { onChange } ) => {
             </div>
             <div className="form-group">
                 <select
+                    defaultValue={filters.role}
                     className="form-control"
                     ref={(node) => {roleInput = node}}
                     onChange={() => {onChange(usernameInput.value, roleInput.value)}}>
@@ -113,7 +115,7 @@ const UserList = ( { message, users, filters, modalFlag, selectedUserId, loggedU
                     <div className="col-xs-12">
                         {successMessage}
                         {failureMessage}
-                        <Filters onChange={onFilterChange}/>
+                        <Filters filters={filters} onChange={onFilterChange}/>
                     </div>
                 </div>
                 <div className="row">

@@ -146,7 +146,7 @@ function saveTimezoneFailure(message) {
 export function saveTimezone(name, city, diff, id) {
     return (dispatch, getState) => {
         diff = parseInt(diff)
-        if (diff > 12 || diff < -12) {
+        if (diff > 12 || diff < -12 || isNaN(diff)) {
             dispatch(saveTimezoneFailure('Difference to GMT must be between -12 and 12.'))
         } else {
             dispatch(saveTimezoneRequest())
@@ -197,7 +197,7 @@ function createTimezoneFailure(message) {
 export function createTimezone(name, city, diff) {
     return (dispatch, getState) => {
         diff = parseInt(diff)
-        if (diff > 12 || diff < -12) {
+        if (diff > 12 || diff < -12 || isNaN(diff)) {
             dispatch(saveTimezoneFailure('Difference to GMT must be between -12 and 12.'))
         } else {
             dispatch(createTimezoneRequest())

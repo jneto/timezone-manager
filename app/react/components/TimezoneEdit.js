@@ -18,9 +18,10 @@ const TimezoneEdit = ( { timezone, message, onSubmit } ) => {
                     {errorMessage}
                     <form className="form" onSubmit={(e) => {
                         e.preventDefault()
-                        if (!name.value.trim() && !city.value.trim() && !diff.value.trim()) {
+                        if (!name.value.trim() || !city.value.trim() || !diff.value.trim()) {
                             return
                         }
+
                         onSubmit(name.value, city.value, diff.value)
                     }}>
                         <div className="form-group">

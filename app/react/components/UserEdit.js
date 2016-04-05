@@ -46,11 +46,13 @@ const UserEdit = ( { user, message, onSubmit } ) => {
                         if (username) {
                             usernameValue = username.value.trim()
                         } else {
-                            usernameValue = false
+                            usernameValue = true
                         }
-                        if (!usernameValue && !role.value.trim() && (!password.value.trim() != !confirmPassword.value.trim())) {
+
+                        if (!usernameValue || !role.value.trim() || (!password.value.trim() != !confirmPassword.value.trim())) {
                             return
                         }
+
                         onSubmit(role.value.trim(), password.value.trim(), confirmPassword.value.trim(), usernameValue)
                     }}>
                         {usernameField}

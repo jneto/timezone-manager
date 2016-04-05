@@ -196,7 +196,9 @@ function createUserFailure(message) {
 
 export function createUser(role, password, confirmPassword, username) {
     return (dispatch, getState) => {
-        if (password !== confirmPassword) {
+        if (!password) {
+            dispatch(createUserFailure('Password cannot be empty.'))
+        } else if (password !== confirmPassword) {
             dispatch(createUserFailure('Password and password confirmation must be equal.'))
         } else {
             dispatch(createUserRequest())
