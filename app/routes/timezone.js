@@ -17,13 +17,17 @@ timezoneRoutes.route('/')
                 timezone.diff = req.body.diff;
                 timezone.owner = req.user._id;
 
-                timezone.save(function(err) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        res.json({success: true, message: 'Timezone created successfully.'});
-                    }
-                });
+                if (timezone.diff > 12 || timezone.diff < -12 || isNaN(timezone.diff)) {
+                    res.json({success: false, message: 'Difference to GMT must be between -12 and 12.'})
+                } else {
+                    timezone.save(function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.json({success: true, message: 'Timezone created successfully.'});
+                        }
+                    });
+                }
             } else {
                 res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
             }
@@ -103,23 +107,28 @@ timezoneRoutes.route('/:timezone_id')
                         if (!timezone) {
                             res.json({success: false, message: 'Timezone not found.'});
                         } else {
-                            if (req.body.name) {
-                                timezone.name = req.body.name;
-                            }
-                            if (req.body.city) {
-                                timezone.city = req.body.city;
-                            }
-                            if (req.body.diff) {
-                                timezone.diff = req.body.diff;
-                            }
-
-                            timezone.save(function(err) {
-                                if (err) {
-                                    res.send(err);
-                                } else {
-                                    res.json({success: true, message: 'Timezone updated successfully.'});
+                            req.body.diff = parseInt(req.body.diff);
+                            if (req.body.diff > 12 || req.body.diff < -12 || isNaN(req.body.diff)) {
+                                res.json({success: false, message: 'Difference to GMT must be between -12 and 12.'})
+                            } else {
+                                if (req.body.name) {
+                                    timezone.name = req.body.name;
                                 }
-                            });
+                                if (req.body.city) {
+                                    timezone.city = req.body.city;
+                                }
+                                if (req.body.diff) {
+                                    timezone.diff = req.body.diff;
+                                }
+
+                                timezone.save(function(err) {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        res.json({success: true, message: 'Timezone updated successfully.'});
+                                    }
+                                });
+                            }
                         }
                     }
                 });
@@ -131,23 +140,28 @@ timezoneRoutes.route('/:timezone_id')
                         if (!timezone) {
                             res.json({success: false, message: 'Timezone not found.'});
                         } else {
-                            if (req.body.name) {
-                                timezone.name = req.body.name;
-                            }
-                            if (req.body.city) {
-                                timezone.city = req.body.city;
-                            }
-                            if (req.body.diff) {
-                                timezone.diff = req.body.diff;
-                            }
-
-                            timezone.save(function(err) {
-                                if (err) {
-                                    res.send(err);
-                                } else {
-                                    res.json({success: true, message: 'Timezone updated successfully.'});
+                            req.body.diff = parseInt(req.body.diff);
+                            if (req.body.diff > 12 || req.body.diff < -12 || isNaN(req.body.diff)) {
+                                res.json({success: false, message: 'Difference to GMT must be between -12 and 12.'})
+                            } else {
+                                if (req.body.name) {
+                                    timezone.name = req.body.name;
                                 }
-                            });
+                                if (req.body.city) {
+                                    timezone.city = req.body.city;
+                                }
+                                if (req.body.diff) {
+                                    timezone.diff = req.body.diff;
+                                }
+
+                                timezone.save(function(err) {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        res.json({success: true, message: 'Timezone updated successfully.'});
+                                    }
+                                });
+                            }
                         }
                     }
                 });
