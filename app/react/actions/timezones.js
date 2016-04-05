@@ -201,3 +201,11 @@ export function createTimezone(name, city, diff) {
         }
     }
 }
+
+export const TICK = 'TICK'
+
+export function tick() {
+    return {
+        type: TICK
+    }
+}

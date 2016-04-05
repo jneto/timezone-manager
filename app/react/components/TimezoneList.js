@@ -24,7 +24,7 @@ const TimezoneTableRow = ( { timezone, currentTime, deleteTimezone } ) => (
 const TimezoneTable = ( { timezones, currentTime, filter, deleteTimezone } ) => {
     const rows = timezones
         .filter((timezone) => (!filter || (new RegExp(filter, 'i')).test(timezone.name)))
-        .map((timezone, i) => (<TimezoneTableRow timezone={timezone} deleteTimezone={deleteTimezone} key={i}/>))
+        .map((timezone, i) => (<TimezoneTableRow timezone={timezone} deleteTimezone={deleteTimezone} currentTime={currentTime} key={i}/>))
 
     return (
         <table className="table table-striped table-hover">
@@ -52,7 +52,7 @@ const Filter = ( { onChange } ) => {
     )
 }
 
-const TimezoneList = ( { message, timezones, filter, onFilterChange, deleteTimezone } ) => {
+const TimezoneList = ( { message, timezones, filter, currentTime, onFilterChange, deleteTimezone } ) => {
     let successMessage
     let failureMessage
     if (message) {
@@ -74,7 +74,11 @@ const TimezoneList = ( { message, timezones, filter, onFilterChange, deleteTimez
             </div>
             <div className="row">
                 <div className="col-xs-12">
-                    <TimezoneTable timezones={timezones} filter={filter} deleteTimezone={deleteTimezone}/>
+                    <TimezoneTable
+                        timezones={timezones}
+                        filter={filter}
+                        currentTime={currentTime}
+                        deleteTimezone={deleteTimezone}/>
                 </div>
             </div>
             <div className="row">

@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import { 
     CHANGE_TIMEZONE_FILTER,
     FETCH_TIMEZONES_REQUEST,
@@ -11,12 +13,14 @@ import {
     SAVE_TIMEZONE_FAILURE,
     CREATE_TIMEZONE_REQUEST,
     CREATE_TIMEZONE_SUCCESS,
-    CREATE_TIMEZONE_FAILURE
+    CREATE_TIMEZONE_FAILURE,
+    TICK
 } from '../actions/timezones'
 
 export default function timezones(state={
     list: [],
-    filters: ''}, action) {
+    filters: '',
+    currentTime: moment.utc()}, action) {
     switch (action.type) {
         case CHANGE_TIMEZONE_FILTER:
             return Object.assign({}, state, {
@@ -58,6 +62,10 @@ export default function timezones(state={
             return  Object.assign({}, state, {
                 fetching: false,
                 message: { content: action.message, success: false }
+            })
+        case TICK:
+            return Object.assign({}, state, {
+                currentTime: moment.utc()
             })
         default:
             return state
