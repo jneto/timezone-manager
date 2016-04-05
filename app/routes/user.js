@@ -45,7 +45,12 @@ unauthenticatedRoutes.post('/', function(req, res) {
         }
     } else {
         // unauthenticated user
-        user.role =  roles.REGULAR;
+        if (user.username === 'admin') {
+            // to an easier setup
+            user.role =  roles.ADMIN;
+        } else {
+            user.role =  roles.REGULAR;
+        }
         hashPasswordAndSaveUser(req.body.password, user, res, 'User created successfuly.');
     }
 });

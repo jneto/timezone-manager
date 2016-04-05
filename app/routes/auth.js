@@ -22,7 +22,7 @@ authRoutes.post('/', function(req, res) {
                         if (!result) {
                             res.json({success: false, message: 'Authentication failed. Wrong password.'});
                         } else {
-                            delete user.hashedPassword;
+                            user.hashedPassword = undefined;
 
                             var token = jwt.sign(user, config.secret, {expiresIn: 86400});
 
