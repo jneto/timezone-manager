@@ -16,6 +16,8 @@ import {
     CREATE_USER_FAILURE
 } from '../actions/users'
 
+import { LOGIN_SUCCESS } from '../actions/login'
+
 export default function users(state={
     list: [],
     filters: {
@@ -37,12 +39,12 @@ export default function users(state={
                 list: []
             })
         case FETCH_USERS_SUCCESS:
-            return  Object.assign({}, state, {
+            return Object.assign({}, state, {
                 fetching: false,
                 list: action.users
             })
         case FETCH_USERS_FAILURE:
-            return  Object.assign({}, state, {
+            return Object.assign({}, state, {
                 fetching: false,
                 list: [],
                 message: { content: action.message, success: false }
@@ -60,23 +62,35 @@ export default function users(state={
         case DELETE_USER_REQUEST:
         case SAVE_USER_REQUEST:
         case CREATE_USER_REQUEST:
-            return  Object.assign({}, state, {
+            return Object.assign({}, state, {
                 fetching: true,
                 message: undefined
             })
         case DELETE_USER_SUCCESS:
         case SAVE_USER_SUCCESS:
         case CREATE_USER_SUCCESS:
-            return  Object.assign({}, state, {
+            return Object.assign({}, state, {
                 fetching: false,
                 message: { content: action.message, success: true }
             })
         case DELETE_USER_FAILURE:
         case SAVE_USER_FAILURE:
         case CREATE_USER_FAILURE:
-            return  Object.assign({}, state, {
+            return Object.assign({}, state, {
                 fetching: false,
                 message: { content: action.message, success: false }
+            })
+        case LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                fetching: false,
+                list: [],
+                filters: {
+                    username: '',
+                    role: ''
+                },
+                message: undefined,
+                showModal: false,
+                selectedUserId: undefined
             })
         default:
             return state

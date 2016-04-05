@@ -19,9 +19,11 @@ import {
     TICK
 } from '../actions/timezones'
 
+import { LOGIN_SUCCESS } from '../actions/login'
+
 export default function timezones(state={
     list: [],
-    filters: '',
+    filter: '',
     currentTime: moment.utc(),
     showModal: false }, action) {
     switch (action.type) {
@@ -79,6 +81,15 @@ export default function timezones(state={
         case TICK:
             return Object.assign({}, state, {
                 currentTime: moment.utc()
+            })
+        case LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                fetching: false,
+                list: [],
+                filter: '',
+                message: undefined,
+                showModal: false,
+                selectedTimezoneId: undefined
             })
         default:
             return state
