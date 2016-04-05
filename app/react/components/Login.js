@@ -11,9 +11,14 @@ const Login = ( { fetching, message, token, onSubmit } ) => {
         return <h1>{token}</h1>
     }
 
-    let errorMessage = null
-    if (message && !message.success) {
-        errorMessage = <p className="text-danger">{message.content}</p>
+    let successMessage
+    let errorMessage
+    if (message) {
+        if (message.success) {
+            successMessage = <p className="text-success">{message.content}</p>
+        } else {
+            errorMessage = <p className="text-danger">{message.content}</p>
+        }
     }
 
     return (
@@ -21,6 +26,7 @@ const Login = ( { fetching, message, token, onSubmit } ) => {
             <div className="row">
                 <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box">
                     {errorMessage}
+                    {successMessage}
                     <form onSubmit={e => {
                         e.preventDefault()
                         if (!username.value.trim() || !password.value.trim()) {
@@ -46,7 +52,7 @@ const Login = ( { fetching, message, token, onSubmit } ) => {
                     </form>
                 </div>
                 <div className="col-xs-12 col-sm-4 col-sm-offset-4">
-                    <Link to="/createAccount">Creat account</Link>
+                    <Link to="/createAccount">Create account</Link>
                 </div>
             </div>
         </div>

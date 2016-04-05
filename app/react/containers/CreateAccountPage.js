@@ -6,8 +6,8 @@ import CreateAccount from '../components/CreateAccount'
 
 const mapStateToProps = state => {
     return {
-        fetching: state.fetching,
-        message: state.message
+        fetching: state.authentication.fetching,
+        message: state.authentication.message
     }
 }
 
