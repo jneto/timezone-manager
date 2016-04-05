@@ -2,8 +2,9 @@ var express = require('express');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+
 var User = require('../models/user');
-var config = require('../../config');
 
 var authRoutes = express.Router();
 
@@ -24,7 +25,7 @@ authRoutes.post('/', function(req, res) {
                         } else {
                             user.hashedPassword = undefined;
 
-                            var token = jwt.sign(user, config.secret, {expiresIn: 86400});
+                            var token = jwt.sign(user, process.env.SECRET, {expiresIn: 86400});
 
                             res.json({
                                 success: true,
