@@ -1,15 +1,25 @@
-This project depends on node.js, mongodb and webpack.
+For this project I used the following technologies:
+- Node.js
+- Express
+- Mongodb
+- React.js
+- Redux
+- Webpack
+- Babel
 
-After installing these dependencies, you need to create a .env file with your enviroment configuration, you can copy the .env.sample and change its values.
+This project depends on node.js, mongodb and webpack. You need these installed before proceeding. You also need to create a .env file with your environment configuration, you can copy the .env.sample and change its values.
 
 Run:
-
+```
 npm install
+```
 
 to install the project dependencies. Then you need to run:
-
+```
 webpack
-
-to build the project. And to run the web server:
-
+```
+to build the project. Make sure to have the mongod daemon running before you run the web server with:
+```
 npm start
+```
+then head over to http://localhost:3000 to access the application.
