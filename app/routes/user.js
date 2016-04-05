@@ -2,6 +2,7 @@ var express = require('express');
 var bcrypt = require('bcrypt');
 
 var User = require('../models/user');
+var Timezone = require('../models/timezone')
 var roles = require('../roles');
 
 var unauthenticatedRoutes = express.Router();
@@ -145,7 +146,13 @@ authenticatedRoutes.route('/:user_id')
                         if (err) {
                             res.send(err);
                         } else {
-                            res.json({success: true, message: 'User deleted successfuly.'});
+                            Timezone.remove({owner: req.params.user_id}, function(err) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json({success: true, message: 'User deleted successfuly.'});
+                                }
+                            })
                         }
                     });
                 } else {
