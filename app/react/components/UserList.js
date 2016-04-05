@@ -1,28 +1,35 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-const UserIcons = ( { id, showModal } ) => (
-    <div>
-        <Link to={'/users/view/' + id}><span className="glyphicon glyphicon-search table-icon"></span></Link>
-        <Link to={'/users/edit/' + id}><span className="glyphicon glyphicon-edit table-icon"></span></Link>
-        <span className="glyphicon glyphicon-trash table-icon" onClick={() => {showModal(id)}}></span>
-    </div>
-)
+const UserIcons = ( { id, loggedUserId, showModal } ) => {
+    let deleteIcon
+    if (id !== loggedUserId) {
+        deleteIcon = (<span className="glyphicon glyphicon-trash table-icon" onClick={() => {showModal(id)}}></span>)
+    }
 
-const UserTableRow = ( { user, showModal } ) => (
+    return (
+        <div>
+            <Link to={'/users/view/' + id}><span className="glyphicon glyphicon-search table-icon"></span></Link>
+            <Link to={'/users/edit/' + id}><span className="glyphicon glyphicon-edit table-icon"></span></Link>
+            {deleteIcon}
+        </div>
+    )
+}
+
+const UserTableRow = ( { user, loggedUserId, showModal } ) => (
     <tr>
         <td>{user.username}</td>
         <td>{user.role}</td>
-        <td><UserIcons id={user._id} showModal={showModal}/></td>
+        <td><UserIcons id={user._id} loggedUserId={loggedUserId} showModal={showModal}/></td>
     </tr>
 )
 
-const UserTable = ( { users, filters, showModal } ) => {
+const UserTable = ( { users, filters, loggedUserId, showModal } ) => {
     const rows = users.filter((user) => {
         const roleMatch = !filters.role || filters.role === user.role
         const usernameMatch = !filters.username || (new RegExp(filters.username, 'i')).test(user.username)
         return usernameMatch && roleMatch
-    }).map((user, i) => (<UserTableRow user={user} showModal={showModal} key={i}/>))
+    }).map((user, i) => (<UserTableRow user={user} loggedUserId={loggedUserId} showModal={showModal} key={i}/>))
 
     return (
         <table className="table table-striped table-hover">
@@ -82,7 +89,7 @@ const Modal = ( { user, hideModal, deleteUser } ) => (
     </div>
 )
 
-const UserList = ( { message, users, filters, modalFlag, selectedUserId, onFilterChange, deleteUser, showModal, hideModal } ) => {
+const UserList = ( { message, users, filters, modalFlag, selectedUserId, loggedUserId, onFilterChange, deleteUser, showModal, hideModal } ) => {
     let successMessage
     let failureMessage
     if (message) {
@@ -112,7 +119,7 @@ const UserList = ( { message, users, filters, modalFlag, selectedUserId, onFilte
                 </div>
                 <div className="row">
                     <div className="col-xs-12">
-                        <UserTable users={users} filters={filters} deleteUser={deleteUser} showModal={showModal}/>
+                        <UserTable users={users} filters={filters} loggedUserId={loggedUserId} showModal={showModal}/>
                     </div>
                 </div>
                 <div className="row">

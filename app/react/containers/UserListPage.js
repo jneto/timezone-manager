@@ -36,7 +36,7 @@ class UserListPage extends Component {
     }
 
     render() {
-        const { message, users, filters, modalFlag, selectedUserId } = this.props
+        const { message, users, filters, modalFlag, selectedUserId, loggedUserId } = this.props
         return (
             <UserList
                 message={message}
@@ -44,6 +44,7 @@ class UserListPage extends Component {
                 filters={filters}
                 modalFlag={modalFlag}
                 selectedUserId={selectedUserId}
+                loggedUserId={loggedUserId}
                 onFilterChange={this.onFilterChange}
                 deleteUser={this.deleteUser}
                 showModal={this.showModal}
@@ -58,7 +59,8 @@ const mapStateToProps = state => {
         users: state.users.list,
         filters: state.users.filters,
         modalFlag: state.users.showModal,
-        selectedUserId: state.users.selectedUserId
+        selectedUserId: state.users.selectedUserId,
+        loggedUserId: state.authentication.user._id
     }
 }
 

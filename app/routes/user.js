@@ -140,13 +140,17 @@ authenticatedRoutes.route('/:user_id')
             res.status(403).send({success: false, message: 'An authentication token is required.'});
         } else {
             if (req.user.role == roles.ADMIN) {
-                User.remove({_id: req.params.user_id}, function(err) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        res.json({success: true, message: 'User deleted successfuly.'});
-                    }
-                });
+                if (req.user._id !== req.params.user_id) {
+                    User.remove({_id: req.params.user_id}, function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.json({success: true, message: 'User deleted successfuly.'});
+                        }
+                    });
+                } else {
+                    res.json({success: false, message: 'You cannot delete yourself.'})
+                }
             } else {
                 res.status(403).send({success: false, message: 'Your role do not grant access to this.'});
             }
