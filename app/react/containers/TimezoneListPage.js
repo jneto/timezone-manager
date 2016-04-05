@@ -18,9 +18,13 @@ class TimezoneListPage extends Component {
     componentDidMount() {
         this.props.dispatch(fetchTimezones())
         this.props.dispatch(tick())
-        setInterval(() => {
+        this.intervalID = setInterval(() => {
             this.props.dispatch(tick())
         }, 5000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalID)
     }
 
     onFilterChange(name) {

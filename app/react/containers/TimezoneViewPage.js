@@ -8,9 +8,13 @@ import TimezoneView from '../components/TimezoneView'
 class TimezoneViewPage extends Component {
     componentDidMount() {
         this.props.dispatch(tick())
-        setInterval(() => {
+        this.intervalID = setInterval(() => {
             this.props.dispatch(tick())
         }, 5000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalID)
     }
 
     render() {
