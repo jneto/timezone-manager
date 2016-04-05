@@ -1,6 +1,8 @@
 This project depends on node.js, mongodb and webpack.
 
-After installing these dependencies, you need to run:
+After installing these dependencies, you need to create a .env file with your enviroment configuration, you can copy the .env.sample and change its values.
+
+Run:
 
 npm install
 
