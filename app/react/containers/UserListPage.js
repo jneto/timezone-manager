@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { changeFilter, fetchUsers, deleteUser } from '../actions/users'
+import { changeFilter, fetchUsers, showDeleteUserModal, hideDeleteUserModal, deleteUser } from '../actions/users'
 
 import UserList from '../components/UserList'
 
@@ -10,6 +10,8 @@ class UserListPage extends Component {
         super(props)
         this.onFilterChange = this.onFilterChange.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
+        this.showModal = this.showModal.bind(this)
+        this.hideModal = this.hideModal.bind(this)
     }
 
     componentDidMount() {
@@ -20,19 +22,32 @@ class UserListPage extends Component {
         this.props.dispatch(changeFilter(username, role))
     }
 
+    showModal(id) {
+        this.props.dispatch(showDeleteUserModal(id))
+    }
+
+    hideModal() {
+        this.props.dispatch(hideDeleteUserModal())
+    }
+
     deleteUser(id) {
         this.props.dispatch(deleteUser(id))
+        this.props.dispatch(hideDeleteUserModal())
     }
 
     render() {
-        const { message, users, filters } = this.props
+        const { message, users, filters, modalFlag, selectedUserId } = this.props
         return (
             <UserList
                 message={message}
                 users={users}
                 filters={filters}
+                modalFlag={modalFlag}
+                selectedUserId={selectedUserId}
                 onFilterChange={this.onFilterChange}
-                deleteUser={this.deleteUser}/>
+                deleteUser={this.deleteUser}
+                showModal={this.showModal}
+                hideModal={this.hideModal}/>
         )
     }
 }
@@ -41,7 +56,9 @@ const mapStateToProps = state => {
     return {
         message: state.users.message,
         users: state.users.list,
-        filters: state.users.filters
+        filters: state.users.filters,
+        modalFlag: state.users.showModal,
+        selectedUserId: state.users.selectedUserId
     }
 }
 

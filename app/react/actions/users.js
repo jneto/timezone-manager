@@ -56,6 +56,23 @@ export function fetchUsers() {
     }
 }
 
+export const SHOW_DELETE_USER_MODAL = 'SHOW_DELETE_USER_MODAL'
+
+export function showDeleteUserModal(id) {
+    return {
+        type: SHOW_DELETE_USER_MODAL,
+        id
+    }
+}
+
+export const HIDE_DELETE_USER_MODAL = 'HIDE_DELETE_USER_MODAL'
+
+export function hideDeleteUserModal() {
+    return {
+        type: HIDE_DELETE_USER_MODAL
+    }
+}
+
 export const DELETE_USER_REQUEST = 'DELETE_USER_REQUEST'
 
 function deleteUserRequest() {

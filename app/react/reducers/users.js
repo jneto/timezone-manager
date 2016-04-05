@@ -3,6 +3,8 @@ import {
     FETCH_USERS_REQUEST,
     FETCH_USERS_SUCCESS,
     FETCH_USERS_FAILURE,
+    SHOW_DELETE_USER_MODAL,
+    HIDE_DELETE_USER_MODAL,
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAILURE,
@@ -19,7 +21,8 @@ export default function users(state={
     filters: {
         username: '',
         role: ''
-    }}, action) {
+    },
+    showModal: false}, action) {
     switch (action.type) {
         case CHANGE_FILTER:
             return Object.assign({}, state, {
@@ -43,6 +46,16 @@ export default function users(state={
                 fetching: false,
                 list: [],
                 message: { content: action.message, success: false }
+            })
+        case SHOW_DELETE_USER_MODAL:
+            return Object.assign({}, state, {
+                showModal: true,
+                selectedUserId: action.id
+            })
+        case HIDE_DELETE_USER_MODAL:
+            return Object.assign({}, state, {
+                showModal: false,
+                selectedUserId: undefined
             })
         case DELETE_USER_REQUEST:
         case SAVE_USER_REQUEST:
