@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { changeTimezoneFilter, fetchTimezones, deleteTimezone, tick } from '../actions/timezones'
+import { changeTimezoneFilter, fetchTimezones, showDeleteTimezoneModal, hideDeleteTimezoneModal, deleteTimezone, tick } from '../actions/timezones'
 
 import TimezoneList from '../components/TimezoneList'
 
@@ -10,6 +10,8 @@ class TimezoneListPage extends Component {
         super(props)
         this.onFilterChange = this.onFilterChange.bind(this)
         this.deleteTimezone = this.deleteTimezone.bind(this)
+        this.showModal = this.showModal.bind(this)
+        this.hideModal = this.hideModal.bind(this)
     }
 
 
@@ -25,20 +27,33 @@ class TimezoneListPage extends Component {
         this.props.dispatch(changeTimezoneFilter(name))
     }
 
+    showModal(id) {
+        this.props.dispatch(showDeleteTimezoneModal(id))
+    }
+
+    hideModal() {
+        this.props.dispatch(hideDeleteTimezoneModal())
+    }
+
     deleteTimezone(id) {
         this.props.dispatch(deleteTimezone(id))
+        this.props.dispatch(hideDeleteTimezoneModal())
     }
 
     render() {
-        const { message, timezones, filter, currentTime } = this.props
+        const { message, timezones, filter, currentTime, modalFlag, selectedTimezoneId } = this.props
         return (
             <TimezoneList
                 message={message}
                 timezones={timezones}
                 filter={filter}
                 currentTime={currentTime}
+                modalFlag={modalFlag}
+                selectedTimezoneId={selectedTimezoneId}
                 onFilterChange={this.onFilterChange}
-                deleteTimezone={this.deleteTimezone}/>
+                deleteTimezone={this.deleteTimezone}
+                showModal={this.showModal}
+                hideModal={this.hideModal}/>
         )
     }
 }
@@ -48,7 +63,9 @@ const mapStateToProps = state => {
         message: state.timezones.message,
         timezones: state.timezones.list,
         filter: state.timezones.filter,
-        currentTime: state.timezones.currentTime
+        currentTime: state.timezones.currentTime,
+        modalFlag: state.timezones.showModal,
+        selectedTimezoneId: state.timezones.selectedTimezoneId
     }
 }
 

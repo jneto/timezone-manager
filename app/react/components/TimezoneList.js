@@ -3,28 +3,28 @@ import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router'
 
-const TimezoneIcons = ( { id, deleteTimezone }) => (
+const TimezoneIcons = ( { id, showModal }) => (
     <div>
         <Link to={'/timezones/view/' + id}><span className="glyphicon glyphicon-search table-icon"></span></Link>
         <Link to={'/timezones/edit/' + id}><span className="glyphicon glyphicon-edit table-icon"></span></Link>
-        <span className="glyphicon glyphicon-trash table-icon" onClick={() => {deleteTimezone(id)}}></span>
+        <span className="glyphicon glyphicon-trash table-icon" onClick={() => {showModal(id)}}></span>
     </div>
 )
 
-const TimezoneTableRow = ( { timezone, currentTime, deleteTimezone } ) => (
+const TimezoneTableRow = ( { timezone, currentTime, showModal } ) => (
     <tr>
         <td>{timezone.name}</td>
         <td>{timezone.city}</td>
         <td>{timezone.diff}</td>
         <td>{moment(currentTime).add(timezone.diff, 'hours').format('hh:mm a')}</td>
-        <td><TimezoneIcons id={timezone._id} deleteTimezone={deleteTimezone}/></td>
+        <td><TimezoneIcons id={timezone._id} showModal={showModal}/></td>
     </tr>
 )
 
-const TimezoneTable = ( { timezones, currentTime, filter, deleteTimezone } ) => {
+const TimezoneTable = ( { timezones, currentTime, filter, showModal } ) => {
     const rows = timezones
         .filter((timezone) => (!filter || (new RegExp(filter, 'i')).test(timezone.name)))
-        .map((timezone, i) => (<TimezoneTableRow timezone={timezone} deleteTimezone={deleteTimezone} currentTime={currentTime} key={i}/>))
+        .map((timezone, i) => (<TimezoneTableRow timezone={timezone} showModal={showModal} currentTime={currentTime} key={i}/>))
 
     return (
         <table className="table table-striped table-hover">
@@ -52,7 +52,38 @@ const Filter = ( { onChange } ) => {
     )
 }
 
-const TimezoneList = ( { message, timezones, filter, currentTime, onFilterChange, deleteTimezone } ) => {
+const Modal = ( { timezone, hideModal, deleteTimezone } ) => (
+    <div className="modal show" tabIndex="-1" role="dialog">
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <button type="button" className="close" aria-label="Close" onClick={() => {hideModal()}}><span aria-hidden="true">&times;</span></button>
+                    <h4 className="modal-title">Delete timezone</h4>
+                </div>
+                <div className="modal-body">
+                    <p>Are you sure you want to delete <i>{timezone.name}?</i></p>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-default" onClick={() => {hideModal()}}>No</button>
+                    <button type="button" className="btn btn-primary" onClick={() => {deleteTimezone(timezone._id)}}>Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+)
+
+const TimezoneList = ( {
+    message,
+    timezones,
+    filter,
+    currentTime,
+    modalFlag,
+    selectedTimezoneId,
+    onFilterChange,
+    deleteTimezone,
+    showModal,
+    hideModal
+} ) => {
     let successMessage
     let failureMessage
     if (message) {
@@ -63,29 +94,39 @@ const TimezoneList = ( { message, timezones, filter, currentTime, onFilterChange
         }
     }
 
+    let modal
+    if (modalFlag) {
+        let timezone = timezones.find((timezone) => {return timezone._id === selectedTimezoneId})
+        modal = (<Modal timezone={timezone} hideModal={hideModal} deleteTimezone={deleteTimezone}/>)
+    }
+
     return (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-xs-12">
-                    {successMessage}
-                    {failureMessage}
-                    <Filter onChange={onFilterChange}/>
+        <div>
+            {modal}
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-xs-12">
+                        {successMessage}
+                        {failureMessage}
+                        <Filter onChange={onFilterChange}/>
+                    </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-xs-12">
-                    <TimezoneTable
-                        timezones={timezones}
-                        filter={filter}
-                        currentTime={currentTime}
-                        deleteTimezone={deleteTimezone}/>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <TimezoneTable
+                            timezones={timezones}
+                            filter={filter}
+                            currentTime={currentTime}
+                            deleteTimezone={deleteTimezone}
+                            showModal={showModal}/>
+                    </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-xs-12 col-sm-3">
-                    <Link to="/timezones/edit">
-                        <button className="btn btn-success btn-block"><span className="glyphicon glyphicon-plus-sign table-icon"></span>Create Timezone</button>
-                    </Link>
+                <div className="row">
+                    <div className="col-xs-12 col-sm-3">
+                        <Link to="/timezones/edit">
+                            <button className="btn btn-success btn-block"><span className="glyphicon glyphicon-plus-sign table-icon"></span>Create Timezone</button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

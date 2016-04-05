@@ -55,6 +55,23 @@ export function fetchTimezones() {
     }
 }
 
+export const SHOW_DELETE_TIMEZONE_MODAL = 'SHOW_DELETE_TIMEZONE_MODAL'
+
+export function showDeleteTimezoneModal(id) {
+    return {
+        type: SHOW_DELETE_TIMEZONE_MODAL,
+        id
+    }
+}
+
+export const HIDE_DELETE_TIMEZONE_MODAL = 'HIDE_DELETE_TIMEZONE_MODAL'
+
+export function hideDeleteTimezoneModal() {
+    return {
+        type: HIDE_DELETE_TIMEZONE_MODAL
+    }
+}
+
 export const DELETE_TIMEZONE_REQUEST = 'DELETE_TIMEZONE_REQUEST'
 
 function deleteTimezoneRequest() {
