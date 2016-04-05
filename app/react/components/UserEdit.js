@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router'
 
 const UserEdit = ( { user, message, onSubmit } ) => {
-    console.log(user)
     let username
     let role
     let password

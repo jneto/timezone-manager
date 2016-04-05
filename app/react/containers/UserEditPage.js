@@ -21,7 +21,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onSubmit: (role, password, confirmPassword, username) => {
-            console.log(ownProps)
             if (ownProps.params && ownProps.params.id) {
                 dispatch(saveUser(role, password, confirmPassword, ownProps.params.id))
             } else {
