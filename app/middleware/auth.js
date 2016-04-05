@@ -18,13 +18,5 @@ module.exports = {
         } else {
             next();
         }
-    },
-
-    blockUnauthenticatedUser: function(req, res, next) {
-        if (!req.user) {
-            res.status(403).send({success: false, message: 'An authentication token is required.'});
-        } else {
-            next();
-        }
     }
 };
